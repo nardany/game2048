@@ -3,6 +3,9 @@
   flex-wrap: wrap;
   width: 320px;
   height: 320px;
+  position: absolute;
+    top: 150px;
+    left: 580px;
 }
 .cell {
   width: 70px;
