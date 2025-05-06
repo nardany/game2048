@@ -37,6 +37,7 @@ function App() {
       let newCells = [...cells];
       let moved = false;
 
+
       if (event.key === "ArrowLeft") {
         for (let i = 0; i < 4; i++) {
           let row = newCells.slice(i * 4, i * 4 + 4);
@@ -79,7 +80,10 @@ function App() {
 
           setCells(newCells);
         }
-      } else if (event.key === "ArrowRight") {
+      } 
+      
+      
+      else if (event.key === "ArrowRight") {
         for (let i = 0; i < 4; i++) {
           let row = newCells.slice(i * 4, i * 4 + 4);
           row.reverse();
@@ -118,6 +122,9 @@ function App() {
           setCells(newCells);
         }
       }
+
+
+
       else if(event.key === "ArrowUp"){
           for(let i = 0;i<4;i++){
             let col = [
@@ -159,6 +166,50 @@ function App() {
             }}
             setCells(newCells);
       }
+
+
+
+      else if(event.key === "ArrowDown"){
+        for(let i = 0;i <4 ; i++){
+            let col = [
+              newCells[i],
+              newCells[i+4],
+              newCells[i+8],
+              newCells[i+12],
+            ]
+            col.reverse()
+            let cleanedCol = col.filter((num)=> num != 0 )
+            for(let j = 0 ; j < cleanedCol.length -1 ;j++){
+              if(cleanedCol[j] === cleanedCol[j+1]){
+                cleanedCol[j] *= 2
+                cleanedCol[j+1] = 0
+                moved = true
+              }
+            }
+            cleanedCol = cleanedCol.filter((num)=> num != 0)
+            while(cleanedCol.length<4){
+              cleanedCol.push(0)
+            }
+            for (let k = 0; k < 4; k++) {
+              if (newCells[i + 4 * k] !== cleanedCol[3-k]) {
+                moved = true;
+                newCells[i + 4 * k] = cleanedCol[3 - k];
+              }
+            }
+        }
+        if (moved) {
+          let emptyIndexes = [];
+          for (let i = 0; i < newCells.length; i++) {
+            if (newCells[i] === 0) {
+              emptyIndexes.push(i);
+            }
+          }
+          if (emptyIndexes.length > 0) {
+            let randIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+            newCells[randIndex] = 2;
+          }}
+          setCells(newCells);
+      }
     }
 
     window.addEventListener("keydown", stepLogic);
@@ -171,8 +222,7 @@ function App() {
     <div className="App">
       {cells.map((num, index) => (
         <div key={index} className="cell">
-          {" "}
-          {num}
+          {num !== 0 ? num : ""}
         </div>
       ))}
     </div>
